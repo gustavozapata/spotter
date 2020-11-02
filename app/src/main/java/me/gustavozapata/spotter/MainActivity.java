@@ -12,3 +12,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 }
+//CAR MAKERS API
+//https://private-anon-bd2fed49be-carsapi1.apiary-mock.com/manufacturers
