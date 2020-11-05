@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundColor"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".SpotCheckActivity">
+
+        <EditText
+            android:id="@+id/editTextPlate"
+            android:layout_width="251dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/car_plate"
+            android:ems="10"
+            android:fontFamily="sans-serif-black"
+            android:hint="@string/placeholder_plate"
+            android:inputType="text"
+            android:paddingStart="35dp"
+            android:paddingLeft="45dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+
+        <EditText
+            android:id="@+id/editTextCarMake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewCarMake"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarMake" />
+
+        <EditText
+            android:id="@+id/editTextCarModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewCarModel"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarModel" />
+
+        <EditText
+            android:id="@+id/editTextNotes"
+            android:layout_width="324dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toStartOf="@+id/textViewNotes"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNotes" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="233dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewResult" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/label_result"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/editTextCarModel"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCarModel" />
+
+        <TextView
+            android:id="@+id/textViewCarModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/label_model"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/editTextCarMake"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCarMake" />
+
+        <TextView
+            android:id="@+id/textViewNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/label_notes"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+        <TextView
+            android:id="@+id/textViewCarMake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/label_make"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/editTextPlate"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPlate" />
+
+        <Button
+            android:id="@+id/btnCreateSpotCheck"
+            android:layout_width="203dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/container_shadow"
+            android:text="@string/button_create"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:onClick="createSpotCheck"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNotes"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
