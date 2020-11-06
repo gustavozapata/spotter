@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class SpotCheckActivity extends AppCompatActivity {
@@ -18,6 +20,11 @@ public class SpotCheckActivity extends AppCompatActivity {
         String timeCreated = getIntent().getStringExtra("timeCreated");
         TextView notes = findViewById(R.id.textViewDate);
         notes.setText(timeCreated);
+
+        Spinner resultsDropdown = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.results_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        resultsDropdown.setAdapter(adapter);
     }
 
     public void createSpotCheck(View view) {

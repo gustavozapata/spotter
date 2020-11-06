@@ -12,14 +12,23 @@
     <string name="placeholder_plate">Plate Number</string>
     <string name="label_make">MAKE</string>
     <string name="label_model">MODEL</string>
+    <string name="label_location">LOCATION</string>
     <string name="label_result">RESULT</string>
+    <string name="label_result_lower">Result</string>
     <string name="label_notes">NOTES</string>
+    <string name="label_notes_lower">Notes</string>
     <string name="button_create">Create</string>
+    <string name="result_no_action">No action required</string>
 
 
     <!--    DATABASE??-->
-    <string name="result_no_action">No action required</string>
     <string name="result_advice_given">Advice given</string>
     <string name="result_produce_documents">Produce documents</string>
     <string name="result_driver_detained">Driver detained</string>
+    <string-array name="results_array">
+        <item>No action required</item>
+        <item>Advice given</item>
+        <item>Produced documents</item>
+        <item>Driver detained</item>
+    </string-array>
 </resources>
