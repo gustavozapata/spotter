@@ -26,9 +26,12 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout spotcheckContainer = findViewById(R.id.spotcheckContainer);
         spotcheckContainer.setVisibility(View.VISIBLE);
 
-        String reply = data.getStringExtra("plateNumber");
-        TextView plateText = findViewById(R.id.textView);
-        plateText.setText(reply);
+        ConstraintLayout sortingLayout = findViewById(R.id.sortingLayout);
+        sortingLayout.setVisibility(View.VISIBLE);
+
+//        String reply = data.getStringExtra("plateNumber");
+//        TextView plateText = findViewById(R.id.textView);
+//        plateText.setText(reply);
     }
 
     public void openSpotCheckScreen(View view) {
