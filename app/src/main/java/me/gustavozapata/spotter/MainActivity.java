@@ -1,5 +1,6 @@
 package me.gustavozapata.spotter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView spotChecksListView;
+    TextView intentMsg;
+    String statusText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,32 @@ public class MainActivity extends AppCompatActivity {
 
         ViewGroup headerList = (ViewGroup) getLayoutInflater().inflate(R.layout.list_header, null);
         spotChecksListView.addHeaderView(headerList);
+
+        if (savedInstanceState != null) {
+            String oldStatusText = savedInstanceState.getString("plateNumber");
+            intentMsg = findViewById(R.id.intentMsg);
+            intentMsg.setText(oldStatusText);
+        }
     }
 
-    @Override
+    @Override //run when activity intent has concluded (finished)
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        ConstraintLayout startView = findViewById(R.id.startView);
-        startView.setVisibility(View.VISIBLE);
+        statusText = data.getStringExtra("plateNumber");
+        intentMsg = findViewById(R.id.intentMsg);
+        intentMsg.setText(statusText);
 
-        spotChecksListView.setVisibility(View.INVISIBLE);
+        //START SCREEN
+//        ConstraintLayout startView = findViewById(R.id.startView);
+//        startView.setVisibility(View.VISIBLE);
+//        spotChecksListView.setVisibility(View.INVISIBLE);
+    }
 
-//        ConstraintLayout sortingLayout = findViewById(R.id.sortingLayout);
-//        sortingLayout.setVisibility(View.INVISIBLE);
+    @Override //to keep state of app when config changes occur
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("plateNumber", statusText);
     }
 
     public void openSpotCheckScreen(View view) {
