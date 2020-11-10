@@ -2,15 +2,18 @@ package me.gustavozapata.spotter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     ListView spotChecksListView;
     TextView intentMsg;
     String statusText = "";
+    ImageView listGridIcon;
+    boolean isList = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,31 @@ public class MainActivity extends AppCompatActivity {
         Intent detailedScreen = new Intent(this, DetailedSpotCheck.class);
         startActivity(detailedScreen);
     }
+
+    public void openEmailSpotChecks(View view) {
+        Intent emailScreen = new Intent(this, EmailActivity.class);
+        startActivity(emailScreen);
+    }
+
+    public void toggleListView(View view) {
+        listGridIcon = findViewById(R.id.listViewButton);
+        if(isList){
+            listGridIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.list));
+            final ListAdapter listAdapter = new ListAdapter(this);
+            spotChecksListView.setAdapter(listAdapter);
+            ColorDrawable lineDivider = new ColorDrawable(Color.TRANSPARENT);
+            spotChecksListView.setDivider(lineDivider);
+            spotChecksListView.setDividerHeight(80);
+        } else {
+            final GridAdapter gridAdapter = new GridAdapter(this);
+            spotChecksListView.setAdapter(gridAdapter);
+            listGridIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.grid));
+            ColorDrawable lineDivider = new ColorDrawable(this.getResources().getColor(R.color.lineDivider));
+            spotChecksListView.setDivider(lineDivider);
+            spotChecksListView.setDividerHeight(1);
+        }
+        isList = !isList;
+    }
 }
 
 class SpotCheckRow {
@@ -89,6 +119,50 @@ class SpotCheckRow {
         this.carMake = carMake;
         this.carModel = carModel;
         this.result = result;
+    }
+}
+
+class GridAdapter extends BaseAdapter {
+    ArrayList<SpotCheckRow> list;
+    Context c;
+
+    GridAdapter(Context context) {
+        c = context;
+        list = new ArrayList<>();
+        list.add(new SpotCheckRow("18 October 2020", "TW12 2XR", "UK PL8TE", "Mazda", "3 2008", "No action required"));
+        list.add(new SpotCheckRow("11 Octover 2020", "KT3 7AS", "UK AER33", "BMW", "XLL", "Produced documents"));
+        list.add(new SpotCheckRow("24 September 2020", "SW12 4DG", "RU 34RTY", "Audi", "3000", "No action required"));
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return list.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        LayoutInflater layoutInflater = LayoutInflater.from(c);
+        View row = layoutInflater.inflate(R.layout.spot_check_row, null);
+
+        SpotCheckRow temp = list.get(i);
+        TextView rowPlate = row.findViewById(R.id.rowPlate);
+        TextView rowResult = row.findViewById(R.id.rowResult);
+        TextView rowDate = row.findViewById(R.id.rowDate);
+        rowPlate.setText(temp.plateNumber);
+        rowResult.setText(temp.result);
+        rowDate.setText(temp.date);
+
+        return row;
     }
 }
 
@@ -121,8 +195,6 @@ class ListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-//        LayoutInflater layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View row = layoutInflater.inflate(R.layout.spot_check_card, viewGroup, false);
         LayoutInflater layoutInflater = LayoutInflater.from(c);
         View row = layoutInflater.inflate(R.layout.spot_check_card, null);
 

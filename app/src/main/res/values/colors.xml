@@ -6,4 +6,5 @@
 
     <color name="backgroundColor">#E9EBF1</color>
     <color name="blueColor">#199BE2</color>
+    <color name="lineDivider">#AFAFAF</color>
 </resources>
