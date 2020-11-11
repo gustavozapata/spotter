@@ -4,29 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
+import me.gustavozapata.spotter.utils.GridAdapter;
+import me.gustavozapata.spotter.utils.ListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView spotChecksListView;
-    TextView intentMsg;
-    String statusText = "";
     ImageView listGridIcon;
     boolean isList = false;
 
+    //When activity is created (or recreated)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,37 +32,53 @@ public class MainActivity extends AppCompatActivity {
 
         spotChecksListView = findViewById(R.id.spotChecksListView);
 
-        final ListAdapter listAdapter = new ListAdapter(this);
-        spotChecksListView.setAdapter(listAdapter);
-
         ViewGroup headerList = (ViewGroup) getLayoutInflater().inflate(R.layout.list_header, null);
         spotChecksListView.addHeaderView(headerList);
 
         if (savedInstanceState != null) {
-            String oldStatusText = savedInstanceState.getString("plateNumber");
-            intentMsg = findViewById(R.id.intentMsg);
-            intentMsg.setText(oldStatusText);
+            isList = savedInstanceState.getBoolean("listView");
+            renderList(isList);
+        } else {
+            renderList(isList);
         }
+    }
+
+    //When activity gets destroyed (finish()) or config changes occur
+    @Override //to keep state of app when config changes occur (like rotate device)
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean("listView", isList);
+        super.onSaveInstanceState(outState);
     }
 
     @Override //run when activity intent has concluded (finished)
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
-        statusText = data.getStringExtra("plateNumber");
-        intentMsg = findViewById(R.id.intentMsg);
-        intentMsg.setText(statusText);
-
-        //START SCREEN
-//        ConstraintLayout startView = findViewById(R.id.startView);
-//        startView.setVisibility(View.VISIBLE);
-//        spotChecksListView.setVisibility(View.INVISIBLE);
     }
 
-    @Override //to keep state of app when config changes occur
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("plateNumber", statusText);
+    public void toggleListView(View view) {
+        isList = !isList;
+        renderList(isList);
+    }
+
+    public void renderList(boolean isListView){
+        if(isListView){
+            final ListAdapter listAdapter = new ListAdapter(this);
+            drawSpotCheckItems(listAdapter, R.drawable.grid, Color.GRAY, 1);
+        } else {
+            final GridAdapter gridAdapter = new GridAdapter(this);
+            drawSpotCheckItems(gridAdapter, R.drawable.list, Color.TRANSPARENT, 80);
+        }
+    }
+
+    public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height){
+        spotChecksListView = findViewById(R.id.spotChecksListView);
+        listGridIcon = findViewById(R.id.listViewButton);
+
+        spotChecksListView.setAdapter(adapter);
+        listGridIcon.setImageDrawable(ContextCompat.getDrawable(this, layout));
+        ColorDrawable lineDivider = new ColorDrawable(color);
+        spotChecksListView.setDivider(lineDivider);
+        spotChecksListView.setDividerHeight(height);
     }
 
     public void openSpotCheckScreen(View view) {
@@ -75,143 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void openDetailedScreen(View view) {
         Intent detailedScreen = new Intent(this, DetailedSpotCheck.class);
-        startActivity(detailedScreen);
+        startActivityForResult(detailedScreen, 0);
     }
 
     public void openEmailSpotChecks(View view) {
         Intent emailScreen = new Intent(this, EmailActivity.class);
-        startActivity(emailScreen);
-    }
-
-    public void toggleListView(View view) {
-        listGridIcon = findViewById(R.id.listViewButton);
-        if(isList){
-            listGridIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.list));
-            final ListAdapter listAdapter = new ListAdapter(this);
-            spotChecksListView.setAdapter(listAdapter);
-            ColorDrawable lineDivider = new ColorDrawable(Color.TRANSPARENT);
-            spotChecksListView.setDivider(lineDivider);
-            spotChecksListView.setDividerHeight(80);
-        } else {
-            final GridAdapter gridAdapter = new GridAdapter(this);
-            spotChecksListView.setAdapter(gridAdapter);
-            listGridIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.grid));
-            ColorDrawable lineDivider = new ColorDrawable(this.getResources().getColor(R.color.lineDivider));
-            spotChecksListView.setDivider(lineDivider);
-            spotChecksListView.setDividerHeight(1);
-        }
-        isList = !isList;
-    }
-}
-
-class SpotCheckRow {
-    String date;
-    String location;
-    String plateNumber;
-    String carMake;
-    String carModel;
-    String result;
-
-    public SpotCheckRow(String date, String location, String plateNumber, String carMake, String carModel, String result) {
-        this.date = date;
-        this.location = location;
-        this.plateNumber = plateNumber;
-        this.carMake = carMake;
-        this.carModel = carModel;
-        this.result = result;
-    }
-}
-
-class GridAdapter extends BaseAdapter {
-    ArrayList<SpotCheckRow> list;
-    Context c;
-
-    GridAdapter(Context context) {
-        c = context;
-        list = new ArrayList<>();
-        list.add(new SpotCheckRow("18 October 2020", "TW12 2XR", "UK PL8TE", "Mazda", "3 2008", "No action required"));
-        list.add(new SpotCheckRow("11 Octover 2020", "KT3 7AS", "UK AER33", "BMW", "XLL", "Produced documents"));
-        list.add(new SpotCheckRow("24 September 2020", "SW12 4DG", "RU 34RTY", "Audi", "3000", "No action required"));
-    }
-
-    @Override
-    public int getCount() {
-        return list.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return list.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        LayoutInflater layoutInflater = LayoutInflater.from(c);
-        View row = layoutInflater.inflate(R.layout.spot_check_row, null);
-
-        SpotCheckRow temp = list.get(i);
-        TextView rowPlate = row.findViewById(R.id.rowPlate);
-        TextView rowResult = row.findViewById(R.id.rowResult);
-        TextView rowDate = row.findViewById(R.id.rowDate);
-        rowPlate.setText(temp.plateNumber);
-        rowResult.setText(temp.result);
-        rowDate.setText(temp.date);
-
-        return row;
-    }
-}
-
-class ListAdapter extends BaseAdapter {
-    ArrayList<SpotCheckRow> list;
-    Context c;
-
-    ListAdapter(Context context) {
-        c = context;
-        list = new ArrayList<>();
-        list.add(new SpotCheckRow("18 October 2020", "TW12 2XR", "UK PL8TE", "Mazda", "3 2008", "No action required"));
-        list.add(new SpotCheckRow("11 Octover 2020", "KT3 7AS", "UK AER33", "BMW", "XLL", "Produced documents"));
-        list.add(new SpotCheckRow("24 September 2020", "SW12 4DG", "RU 34RTY", "Audi", "3000", "No action required"));
-    }
-
-    @Override
-    public int getCount() {
-        return list.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return list.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        LayoutInflater layoutInflater = LayoutInflater.from(c);
-        View row = layoutInflater.inflate(R.layout.spot_check_card, null);
-
-        TextView date = row.findViewById(R.id.textViewSpotCheckDate);
-        TextView location = row.findViewById(R.id.textViewSpotCheckLocation);
-        TextView plateNumber = row.findViewById(R.id.textViewCarPlate);
-        TextView carMake = row.findViewById(R.id.textViewCarMake);
-        TextView result = row.findViewById(R.id.textViewResult);
-
-        SpotCheckRow temp = list.get(i);
-        date.setText(temp.date);
-        location.setText(temp.location);
-        plateNumber.setText(temp.plateNumber);
-        carMake.setText(temp.carMake);
-        result.setText(temp.result);
-
-        return row;
+        startActivityForResult(emailScreen, 0);
     }
 }
 //CAR MAKERS API

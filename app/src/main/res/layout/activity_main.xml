@@ -32,8 +32,6 @@
             android:id="@+id/spotChecksListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="30dp"
             android:headerDividersEnabled="false"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
