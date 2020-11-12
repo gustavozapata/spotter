@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,6 +19,9 @@ import me.gustavozapata.spotter.utils.GridAdapter;
 import me.gustavozapata.spotter.utils.ListAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile = "me.gustavozpata.spotter.sharedprefs";
 
     ListView spotChecksListView;
     ImageView listGridIcon;
@@ -35,12 +38,23 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup headerList = (ViewGroup) getLayoutInflater().inflate(R.layout.list_header, null);
         spotChecksListView.addHeaderView(headerList);
 
-        if (savedInstanceState != null) {
-            isList = savedInstanceState.getBoolean("listView");
-            renderList(isList);
-        } else {
-            renderList(isList);
-        }
+        //USING INSTANCE_STATE
+//        if (savedInstanceState != null) {
+//            isList = savedInstanceState.getBoolean("listView");
+//            renderList(isList);
+//        } else {
+//            renderList(isList);
+//        }
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        renderList(mPreferences.getBoolean("isList", isList));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean("isList", isList);
+        preferencesEditor.apply();
     }
 
     //When activity gets destroyed (finish()) or config changes occur
@@ -51,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override //run when activity intent has concluded (finished)
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -60,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         renderList(isList);
     }
 
-    public void renderList(boolean isListView){
-        if(isListView){
+    public void renderList(boolean isListView) {
+        if (isListView) {
             final ListAdapter listAdapter = new ListAdapter(this);
             drawSpotCheckItems(listAdapter, R.drawable.grid, Color.GRAY, 1);
         } else {
@@ -70,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height){
+    public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height) {
         spotChecksListView = findViewById(R.id.spotChecksListView);
         listGridIcon = findViewById(R.id.listViewButton);
 

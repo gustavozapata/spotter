@@ -28,49 +28,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
             android:layout_marginLeft="7dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
+            android:onClick="composeAndSend"
             app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton2"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
             app:srcCompat="@drawable/send" />
 
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="293dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginTop="40dp"
-            android:textSize="16sp"
-            android:text="Email only Spot Checks that have not being emailed"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.015"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginLeft="52dp"
-            android:textSize="16sp"
-            android:layout_marginTop="32dp"
-            android:text="Email all the Spot Checks"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:fontFamily="sans-serif-black"
             android:text="Send"
             android:textColor="@android:color/black"
             android:textSize="26sp"
+            android:onClick="composeAndSend"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.463"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
         <TextView
             android:id="@+id/textView4"
@@ -85,6 +63,45 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="409dp"
+            android:layout_height="155dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <RadioButton
+                android:id="@+id/latestEmail"
+                android:layout_width="293dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="52dp"
+                android:layout_marginLeft="52dp"
+                android:layout_marginTop="40dp"
+                android:lineSpacingExtra="5sp"
+                android:gravity="top"
+                android:checked="true"
+                android:text="Email only Spot Checks that have not being emailed"
+                android:textSize="16sp"
+                android:onClick="selectEmailOption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.015"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <RadioButton
+                android:id="@+id/allEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:layout_marginLeft="52dp"
+                android:layout_marginTop="32dp"
+                android:onClick="selectEmailOption"
+                android:text="Email all the Spot Checks"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/latestEmail" />
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
