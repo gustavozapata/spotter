@@ -17,17 +17,17 @@ public class EmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_email);
     }
 
-    public void visitURL(View view) {
-        EditText enterURL = findViewById(R.id.enterURLEditText);
-        String url = enterURL.getText().toString();
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if(intent.resolveActivity(getPackageManager()) != null){
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "What in the name of sweet Nelly Furtado is going on?", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    public void visitURL(View view) {
+//        EditText enterURL = findViewById(R.id.enterURLEditText);
+//        String url = enterURL.getText().toString();
+//        Uri webpage = Uri.parse(url);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+//        if(intent.resolveActivity(getPackageManager()) != null){
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(this, "What in the name of sweet Nelly Furtado is going on?", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     // TODO: email all previous spot checks. Email latest spot check only - do not send the ones already sent, only the ones that haven't been sent
     public void composeAndSend(View view) {
