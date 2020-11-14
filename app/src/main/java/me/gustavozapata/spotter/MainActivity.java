@@ -25,35 +25,41 @@ public class MainActivity extends AppCompatActivity {
 
     ListView spotChecksListView;
     ImageView listGridIcon;
-    boolean isList = false;
+    boolean isList;
 
     //When activity is created (or recreated)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate");
         setContentView(R.layout.activity_main);
 
         spotChecksListView = findViewById(R.id.spotChecksListView);
-
         ViewGroup headerList = (ViewGroup) getLayoutInflater().inflate(R.layout.list_header, null);
         spotChecksListView.addHeaderView(headerList);
 
-        //USING INSTANCE_STATE
-//        if (savedInstanceState != null) {
-//            isList = savedInstanceState.getBoolean("listView");
-//            renderList(isList);
-//        } else {
-//            renderList(isList);
-//        }
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        renderList(mPreferences.getBoolean("isList", isList));
+
+        //Using Instance State
+        /*if (savedInstanceState != null) {
+            isList = savedInstanceState.getBoolean("listView");
+            renderList(isList);
+        } else {
+            renderList(isList);
+        }*/
+
+        //Using Shared Preferences
+        isList = mPreferences.getBoolean("sharedIsList", false);
+        renderList(isList);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        System.out.println("onPause");
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putBoolean("isList", isList);
+        System.out.println("sharedIsList: " + isList);
+        preferencesEditor.putBoolean("sharedIsList", isList);
         preferencesEditor.apply();
     }
 
