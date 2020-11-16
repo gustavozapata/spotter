@@ -26,6 +26,10 @@ public class GridAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public SpotCheck getSpotAt(int position){
+        return list.get(position);
+    }
+
     @Override
     public int getCount() {
         return list.size();

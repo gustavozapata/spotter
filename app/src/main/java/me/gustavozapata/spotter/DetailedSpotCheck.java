@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,27 +17,19 @@ import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
 public class DetailedSpotCheck extends AppCompatActivity {
 
     private SpotCheckViewModel spotCheckViewModel;
-    public SpotCheck spotCheck;
     TextView detailedNumberPlate;
     TextView detailedCar;
     TextView detailedDate;
     TextView detailedResult;
     TextView detailedNotes;
+    TextView detailedLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_spot_check);
 
-        String id = getIntent().getStringExtra("spotCheckId");
         spotCheckViewModel = ViewModelProviders.of(this).get(SpotCheckViewModel.class);
-//        spotCheck = spotCheckViewModel.getSpotCheck(id);
-        spotCheckViewModel.getSpotCheck(id).observe(this, new Observer<SpotCheck>() {
-            @Override
-            public void onChanged(SpotCheck spot) {
-                spotCheck = spot;
-            }
-        });
 
         populateFields();
     }
@@ -47,12 +40,19 @@ public class DetailedSpotCheck extends AppCompatActivity {
         detailedDate = findViewById(R.id.detailedDate);
         detailedResult = findViewById(R.id.detailedResult);
         detailedNotes = findViewById(R.id.detailedNotes);
+        detailedLocation = findViewById(R.id.detailedLocation);
 
-//        detailedNumberPlate.setText(spotCheck.getNumberPlate());
-//        String car = spotCheck.getCarMake() + " - " + spotCheck.getCarModel();
-//        detailedCar.setText(car);
-//        detailedDate.setText(spotCheck.getDate());
-//        detailedResult.setText(spotCheck.getResult());
-//        detailedNotes.setText(spotCheck.getNotes());
+        String numberPlate = getIntent().getStringExtra("spotCheckNumberPlate");
+        String car = getIntent().getStringExtra("spotCheckCar");
+        String date = getIntent().getStringExtra("spotCheckDate");
+        String location = getIntent().getStringExtra("spotCheckLocation");
+        String result = getIntent().getStringExtra("spotCheckResult");
+        String notes = getIntent().getStringExtra("spotCheckNotes");
+        if(location != null && !location.isEmpty()) detailedLocation.setText(location);
+        if(car != null && !car.equals(" ")) detailedCar.setText(car);
+        detailedNumberPlate.setText(numberPlate);
+        detailedDate.setText(date);
+        detailedResult.setText(result);
+        detailedNotes.setText(notes);
     }
 }

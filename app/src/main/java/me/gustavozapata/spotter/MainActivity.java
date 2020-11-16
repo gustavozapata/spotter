@@ -14,10 +14,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -65,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
                 renderList(spotChecks);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SpotCheck spot = listAdapter.getSpotAt(i-1);
+                Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheck.class);
+                detailedScreen.putExtra("spotCheckNumberPlate", spot.getNumberPlate());
+                detailedScreen.putExtra("spotCheckCar", spot.getCarMake() + " " + spot.getCarModel());
+                detailedScreen.putExtra("spotCheckDate", spot.getDate());
+                detailedScreen.putExtra("spotCheckLocation", spot.getLocation());
+                detailedScreen.putExtra("spotCheckResult", spot.getResult());
+                detailedScreen.putExtra("spotCheckNotes", spot.getNotes());
+                startActivityForResult(detailedScreen, 0);
+            }
+        });
     }
 
     public void renderList(List<SpotCheck> spotChecks) {
@@ -99,15 +114,6 @@ public class MainActivity extends AppCompatActivity {
             listView.setVisibility(View.VISIBLE);
             startView.setVisibility(View.GONE);
         }
-    }
-
-    public void openDetailedScreen(View view) {
-        TextView elID = findViewById(R.id.elID);
-        String id = elID.getText().toString();
-        System.out.println("##########################" + id);
-        Intent detailedScreen = new Intent(this, DetailedSpotCheck.class);
-        detailedScreen.putExtra("spotCheckId", id);
-        startActivityForResult(detailedScreen, 0);
     }
 
     @Override
@@ -156,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(emailScreen, 0);
     }
 
+    //FIXME: Testing method
     public void deleteAll(View view) {
         spotCheckViewModel.deleteAll();
         Toast.makeText(MainActivity.this, "All Spots deleted", Toast.LENGTH_SHORT).show();

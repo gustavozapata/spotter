@@ -63,14 +63,19 @@
         <EditText
             android:id="@+id/editTextNotes"
             android:layout_width="324dp"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:inputType="text"
+            android:minLines="1"
+            android:lines="5"
+            android:maxLines="8"
+            android:inputType="textCapSentences|textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.459"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewNotes" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewNotes"
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <Spinner
             style="@style/Widget.AppCompat.DropDownItem.Spinner"

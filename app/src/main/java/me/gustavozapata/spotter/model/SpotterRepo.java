@@ -28,9 +28,9 @@ public class SpotterRepo {
     public LiveData<SpotCheck> getSpotCheck(String id){
         return spotterDao.getSpotCheck(id);
     }
-    public SpotCheck getOne(String id){
+    public void getOne(String id){
         new GetOneAsyncTask(spotterDao).execute(id);
-        return spotterDao.getOne(id);
+//        return spotterDao.getOne(id);
     }
     public void update(SpotCheck spotCheck){
         new UpdateAsyncTask(spotterDao).execute(spotCheck);

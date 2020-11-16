@@ -15,7 +15,6 @@
         android:layout_marginRight="38dp"
         android:background="@drawable/spotcheck_container"
         android:paddingBottom="16dp"
-        android:onClick="openDetailedScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

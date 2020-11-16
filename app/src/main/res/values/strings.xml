@@ -19,6 +19,8 @@
     <string name="label_notes_lower">Notes</string>
     <string name="button_create">Create</string>
     <string name="result_no_action">No action required</string>
+    <string name="no_record_car">Car: No record</string>
+    <string name="no_record_location">Location: No record</string>
 
 
     <!--    DATABASE??-->

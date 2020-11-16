@@ -15,7 +15,6 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:orientation="vertical"
-        android:onClick="openDetailedScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

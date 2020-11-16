@@ -34,9 +34,9 @@ public class SpotCheckViewModel extends AndroidViewModel {
     public LiveData<SpotCheck> getSpotCheck(String id) {
         return repo.getSpotCheck(id);
     }
-    public SpotCheck getOne(String id){
-        return repo.getOne(id);
-    }
+//    public SpotCheck getOne(String id){
+//        return repo.getOne(id);
+//    }
     public void update(SpotCheck spotCheck){
         repo.update(spotCheck);
     }

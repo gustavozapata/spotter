@@ -31,7 +31,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Mazda 3"
+            android:text="@string/no_record_car"
             android:textColor="@color/blueColor"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,6 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="48dp"
             android:fontFamily="sans-serif-medium"
-            android:text="18 October, 2020"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailedCar" />
 
@@ -85,7 +84,6 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="sans-serif-medium"
-            android:text="No action required"
             android:textColor="#22C058"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,10 +124,26 @@
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
-            android:textSize="17sp"
-            android:fontFamily="sans-serif-medium"
-            android:text="TextView"
+            android:layout_marginBottom="24dp"
+            android:textSize="18sp"
+            android:paddingRight="24dp"
+            android:lineSpacingExtra="4sp"
+            android:paddingLeft="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintTop_toBottomOf="@+id/textView14"
+            android:paddingEnd="24dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="0dp" />
+
+        <TextView
+            android:id="@+id/detailedLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/no_record_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
