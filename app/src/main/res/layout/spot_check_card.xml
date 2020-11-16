@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -39,18 +40,20 @@
             android:background="@drawable/plate"
             android:fontFamily="sans-serif-black"
             android:gravity="center_horizontal"
-            android:paddingTop="5dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="5dp"
             android:text="UK PL8TE"
+            android:letterSpacing="0.2"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewSpotCheckDate" />
 
         <TextView
-            android:id="@+id/textViewCarMake"
+            android:id="@+id/textViewCar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -74,7 +77,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCarMake" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCar" />
 
         <TextView
             android:id="@+id/textViewResult"
@@ -88,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.359"
             app:layout_constraintStart_toEndOf="@+id/textViewResultLabel"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCarMake" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCar" />
 
         <TextView
             android:id="@+id/textViewSpotCheckLocation"
@@ -101,6 +104,19 @@
             android:text="TW12 1SY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/elID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="84dp"
+            android:text="TextView"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

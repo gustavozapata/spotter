@@ -9,7 +9,7 @@
     <string name="start_msg">There are not Spot Checks :( \n Tap the \'Spot Check\' button to add one</string>
 
     <!--    Spot Check-->
-    <string name="placeholder_plate">Plate Number</string>
+    <string name="placeholder_plate"># PLATE</string>
     <string name="label_make">MAKE</string>
     <string name="label_model">MODEL</string>
     <string name="label_location">LOCATION</string>

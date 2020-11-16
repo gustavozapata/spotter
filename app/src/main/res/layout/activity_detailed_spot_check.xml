@@ -20,11 +20,11 @@
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/detailedDate"
             app:srcCompat="@drawable/start" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/detailedCar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -32,13 +32,13 @@
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
             android:text="Mazda 3"
-            android:textColor="#3F50EA"
+            android:textColor="@color/blueColor"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedNumberPlate" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/detailedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -47,10 +47,10 @@
             android:fontFamily="sans-serif-medium"
             android:text="18 October, 2020"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedCar" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/detailedNumberPlate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -78,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/detailedResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -117,6 +117,19 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedResult" />
+
+        <TextView
+            android:id="@+id/detailedNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:textSize="17sp"
+            android:fontFamily="sans-serif-medium"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

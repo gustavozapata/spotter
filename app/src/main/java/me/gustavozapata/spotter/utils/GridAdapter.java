@@ -7,21 +7,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import me.gustavozapata.spotter.R;
-import me.gustavozapata.spotter.SpotCheckRow;
+import me.gustavozapata.spotter.model.SpotCheck;
 
 public class GridAdapter extends BaseAdapter {
-    ArrayList<SpotCheckRow> list;
+    List<SpotCheck> list;
     Context c;
 
-    public GridAdapter(Context context) {
+    public GridAdapter(Context context, List<SpotCheck> lista) {
         c = context;
-        list = new ArrayList<>();
-        list.add(new SpotCheckRow("18 October 2020", "TW12 2XR", "UK PL8TE", "Mazda", "3 2008", "No action required"));
-        list.add(new SpotCheckRow("11 Octover 2020", "KT3 7AS", "UK AER33", "BMW", "XLL", "Produced documents"));
-        list.add(new SpotCheckRow("24 September 2020", "SW12 4DG", "RU 34RTY", "Audi", "3000", "No action required"));
+        list = lista;
+    }
+
+    public void setSpotChecks(List<SpotCheck> spots){
+        this.list = spots;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -47,15 +49,20 @@ public class GridAdapter extends BaseAdapter {
         TextView date = row.findViewById(R.id.textViewSpotCheckDate);
         TextView location = row.findViewById(R.id.textViewSpotCheckLocation);
         TextView plateNumber = row.findViewById(R.id.textViewCarPlate);
-        TextView carMake = row.findViewById(R.id.textViewCarMake);
+        TextView carMake = row.findViewById(R.id.textViewCar);
         TextView result = row.findViewById(R.id.textViewResult);
 
-        SpotCheckRow temp = list.get(i);
-        date.setText(temp.date);
-        location.setText(temp.location);
-        plateNumber.setText(temp.plateNumber);
-        carMake.setText(temp.carMake);
-        result.setText(temp.result);
+        TextView elID = row.findViewById(R.id.elID);
+
+        SpotCheck temp = list.get(i);
+        date.setText(temp.getDate());
+        location.setText(temp.getLocation());
+        plateNumber.setText(temp.getNumberPlate());
+        String car = temp.getCarMake() + " - " + temp.getCarModel();
+        carMake.setText(car);
+        result.setText(temp.getResult());
+
+        elID.setText(temp.getId());
 
         return row;
     }
