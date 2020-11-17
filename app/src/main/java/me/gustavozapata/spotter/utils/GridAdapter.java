@@ -12,6 +12,8 @@ import java.util.List;
 import me.gustavozapata.spotter.R;
 import me.gustavozapata.spotter.model.SpotCheck;
 
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
+
 public class GridAdapter extends BaseAdapter {
     List<SpotCheck> list;
     Context c;
@@ -50,23 +52,21 @@ public class GridAdapter extends BaseAdapter {
         LayoutInflater layoutInflater = LayoutInflater.from(c);
         View row = layoutInflater.inflate(R.layout.spot_check_card, null);
 
+        SpotCheck temp = list.get(i);
+
         TextView date = row.findViewById(R.id.textViewSpotCheckDate);
         TextView location = row.findViewById(R.id.textViewSpotCheckLocation);
         TextView plateNumber = row.findViewById(R.id.textViewCarPlate);
         TextView carMake = row.findViewById(R.id.textViewCar);
         TextView result = row.findViewById(R.id.textViewResult);
+        colourResult(temp.getResult(), result);
 
-        TextView elID = row.findViewById(R.id.elID);
-
-        SpotCheck temp = list.get(i);
         date.setText(temp.getDate());
         location.setText(temp.getLocation());
         plateNumber.setText(temp.getNumberPlate());
         String car = temp.getCarMake() + " - " + temp.getCarModel();
         carMake.setText(car);
         result.setText(temp.getResult());
-
-        elID.setText(temp.getId());
 
         return row;
     }

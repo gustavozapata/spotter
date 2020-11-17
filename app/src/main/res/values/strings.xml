@@ -4,6 +4,7 @@
     <string name="spot_check">Spot Check</string>
     <string name="sort_result"><u>Sort by Result</u></string>
     <string name="sort_date"><u>Sort by Date</u></string>
+    <string name="delete_spot"><u>Delete</u></string>
     <string name="notes">Notes</string>
     <string name="start_img_desc">No records found</string>
     <string name="start_msg">There are not Spot Checks :( \n Tap the \'Spot Check\' button to add one</string>
@@ -25,7 +26,7 @@
 
     <!--    DATABASE??-->
     <string name="result_advice_given">Advice given</string>
-    <string name="result_produce_documents">Produce documents</string>
+    <string name="result_produced_documents">Produced documents</string>
     <string name="result_driver_detained">Driver detained</string>
     <string-array name="results_array">
         <item>No action required</item>

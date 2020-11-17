@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpotCheck spot = listAdapter.getSpotAt(i-1);
+                SpotCheck spot = listAdapter.getSpotAt(--i);
                 Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheck.class);
                 detailedScreen.putExtra("spotCheckNumberPlate", spot.getNumberPlate());
                 detailedScreen.putExtra("spotCheckCar", spot.getCarMake() + " " + spot.getCarModel());
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         ColorDrawable lineDivider = new ColorDrawable(color);
         listView.setDivider(lineDivider);
         listView.setDividerHeight(height);
+
     }
 
     public void startScreen() {

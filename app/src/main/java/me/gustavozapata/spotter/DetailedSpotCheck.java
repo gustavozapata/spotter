@@ -5,14 +5,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import me.gustavozapata.spotter.model.SpotCheck;
 import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
+
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
 
 public class DetailedSpotCheck extends AppCompatActivity {
 
@@ -46,13 +52,18 @@ public class DetailedSpotCheck extends AppCompatActivity {
         String car = getIntent().getStringExtra("spotCheckCar");
         String date = getIntent().getStringExtra("spotCheckDate");
         String location = getIntent().getStringExtra("spotCheckLocation");
-        String result = getIntent().getStringExtra("spotCheckResult");
         String notes = getIntent().getStringExtra("spotCheckNotes");
-        if(location != null && !location.isEmpty()) detailedLocation.setText(location);
-        if(car != null && !car.equals(" ")) detailedCar.setText(car);
+        if (location != null && !location.isEmpty()) detailedLocation.setText(location);
+        if (car != null && !car.equals(" ")) detailedCar.setText(car);
+        String result = getIntent().getStringExtra("spotCheckResult");
+        colourResult(result, detailedResult);
         detailedNumberPlate.setText(numberPlate);
         detailedDate.setText(date);
         detailedResult.setText(result);
         detailedNotes.setText(notes);
+    }
+
+    public void onDeleteSpot(View view) {
+        Toast.makeText(this, "Spot Check deleted", Toast.LENGTH_SHORT).show();
     }
 }
