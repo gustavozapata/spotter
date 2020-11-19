@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="15dp"
@@ -9,7 +8,31 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-<!-- TODO: search spot checks - all the fields (date, car reg number, location, etc. ALL!)-->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:contentDescription="@string/icon_send"
+        android:onClick="openEmailSpotChecks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/send" />
+
+    <ImageView
+        android:id="@+id/listViewButton"
+        android:layout_width="25dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:contentDescription="@string/icon_grid"
+        android:onClick="toggleListView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:srcCompat="@drawable/list" />
 
     <SearchView
         android:id="@+id/searchView"
@@ -21,6 +44,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/corner_radius"
+        android:iconifiedByDefault="false"
         android:paddingStart="10dp"
         android:paddingLeft="5dp"
         android:paddingEnd="5dp"
@@ -57,43 +81,5 @@
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:onClick="openEmailSpotChecks"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/send" />
-
-    <ImageView
-        android:id="@+id/listViewButton"
-        android:layout_width="25dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:onClick="toggleListView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:srcCompat="@drawable/list" />
-
-    <TextView
-        android:id="@+id/deleteAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Delete"
-        android:textSize="17sp"
-        android:onClick="deleteAll"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

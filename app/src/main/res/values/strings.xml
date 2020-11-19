@@ -23,8 +23,11 @@
     <string name="no_record_car">Car: No record</string>
     <string name="no_record_location">Location: No record</string>
 
+    <!--    Images-->
+    <string name="icon_send">Send icon</string>
+    <string name="icon_grid">List/Grid icon</string>
 
-    <!--    DATABASE??-->
+    <!--    Spinner-->
     <string name="result_advice_given">Advice given</string>
     <string name="result_produced_documents">Produced documents</string>
     <string name="result_driver_detained">Driver detained</string>

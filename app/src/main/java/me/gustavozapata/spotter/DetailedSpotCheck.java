@@ -1,21 +1,14 @@
 package me.gustavozapata.spotter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
-import me.gustavozapata.spotter.model.SpotCheck;
 import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
 
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
@@ -64,6 +57,9 @@ public class DetailedSpotCheck extends AppCompatActivity {
     }
 
     public void onDeleteSpot(View view) {
+        Intent deleteSpotCheck = new Intent();
+        setResult(RESULT_OK, deleteSpotCheck);
+        finish();
         Toast.makeText(this, "Spot Check deleted", Toast.LENGTH_SHORT).show();
     }
 }

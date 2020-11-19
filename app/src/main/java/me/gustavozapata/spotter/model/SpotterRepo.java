@@ -25,21 +25,13 @@ public class SpotterRepo {
         new InsertAsyncTask(spotterDao).execute(spotCheck);
     }
 
-    public LiveData<SpotCheck> getSpotCheck(String id){
-        return spotterDao.getSpotCheck(id);
-    }
-    public void getOne(String id){
-        new GetOneAsyncTask(spotterDao).execute(id);
-//        return spotterDao.getOne(id);
-    }
-    public void update(SpotCheck spotCheck){
-        new UpdateAsyncTask(spotterDao).execute(spotCheck);
-    }
     public void delete(SpotCheck spotCheck){
         new DeleteAsyncTask(spotterDao).execute(spotCheck);
     }
-    public void deleteAll(){
-        new DeleteAllAsyncTask(spotterDao).execute();
+
+    //Search
+    public LiveData<List<SpotCheck>> searchNumberPlates(String plate){
+        return spotterDao.searchNumberPlates(plate);
     }
 
     //Insert
@@ -57,30 +49,6 @@ public class SpotterRepo {
         }
     }
 
-    //Get one
-    private static class GetOneAsyncTask extends AsyncTask<String, Void, Void> {
-        private SpotterDao asyncTaskDao;
-        GetOneAsyncTask(SpotterDao dao){
-            asyncTaskDao = dao;
-        }
-        @Override
-        protected Void doInBackground(String... id) {
-            asyncTaskDao.getOne(id[0]);
-            return null;
-        }
-    }
-    //Update
-    private static class UpdateAsyncTask extends AsyncTask<SpotCheck, Void, Void> {
-        private SpotterDao asyncTaskDao;
-        UpdateAsyncTask(SpotterDao dao){
-            asyncTaskDao = dao;
-        }
-        @Override
-        protected Void doInBackground(SpotCheck... spotChecks) {
-            asyncTaskDao.update(spotChecks[0]);
-            return null;
-        }
-    }
     //Delete
     private static class DeleteAsyncTask extends AsyncTask<SpotCheck, Void, Void> {
         private SpotterDao asyncTaskDao;
@@ -90,18 +58,6 @@ public class SpotterRepo {
         @Override
         protected Void doInBackground(SpotCheck... spotChecks) {
             asyncTaskDao.delete(spotChecks[0]);
-            return null;
-        }
-    }
-    //Delete All
-    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
-        private SpotterDao asyncTaskDao;
-        DeleteAllAsyncTask(SpotterDao dao){
-            asyncTaskDao = dao;
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            asyncTaskDao.deleteAll();
             return null;
         }
     }

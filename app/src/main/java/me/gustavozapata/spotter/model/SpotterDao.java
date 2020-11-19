@@ -5,7 +5,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -18,19 +17,9 @@ public interface SpotterDao {
     @Insert
     void insert(SpotCheck spotCheck);
 
-
-    @Query("SELECT * FROM SpotCheck WHERE id = :id")
-    LiveData<SpotCheck> getSpotCheck(String id);
-
-    @Query("SELECT * FROM SpotCheck WHERE id = :id")
-    SpotCheck getOne(String id);
-
-    @Update
-    void update(SpotCheck spotCheck);
-
     @Delete
     void delete(SpotCheck spotCheck);
 
-    @Query("DELETE FROM SpotCheck")
-    void deleteAll();
+    @Query("SELECT * from SpotCheck WHERE numberPlate LIKE '%' || :plate || '%' ORDER BY numberPlate ASC")
+    LiveData<List<SpotCheck>> searchNumberPlates(String plate);
 }

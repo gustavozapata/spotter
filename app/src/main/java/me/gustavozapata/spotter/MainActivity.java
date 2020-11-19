@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,7 @@ import me.gustavozapata.spotter.utils.ListAdapter;
 
 public class MainActivity extends AppCompatActivity {
     public static final int ADD_SPOT_CHECK = 1;
+    public static final int OPEN_SPOT_CHECK = 2;
 
     private SharedPreferences mPreferences;
     private String sharedPrefFile = "me.gustavozpata.spotter.sharedprefs";
@@ -38,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     ImageView listGridIcon;
+    SearchView searchView;
     boolean isList;
     List<SpotCheck> list = new ArrayList<>();
+    int selectedSpot;
 
     final ListAdapter listAdapter = new ListAdapter(this, list);
     final GridAdapter gridAdapter = new GridAdapter(this, list);
@@ -69,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpotCheck spot = listAdapter.getSpotAt(--i);
+                SpotCheck spot = isList ? listAdapter.getSpotAt(--i) : gridAdapter.getSpotAt(--i);
+                selectedSpot = i;
                 Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheck.class);
                 detailedScreen.putExtra("spotCheckNumberPlate", spot.getNumberPlate());
                 detailedScreen.putExtra("spotCheckCar", spot.getCarMake() + " " + spot.getCarModel());
@@ -77,7 +81,35 @@ public class MainActivity extends AppCompatActivity {
                 detailedScreen.putExtra("spotCheckLocation", spot.getLocation());
                 detailedScreen.putExtra("spotCheckResult", spot.getResult());
                 detailedScreen.putExtra("spotCheckNotes", spot.getNotes());
-                startActivityForResult(detailedScreen, 0);
+                detailedScreen.putExtra("deleteItem", i);
+                startActivityForResult(detailedScreen, OPEN_SPOT_CHECK);
+            }
+        });
+
+        searchViewFunctionality();
+    }
+
+    public void searchViewFunctionality() {
+        searchView = findViewById(R.id.searchView);
+        spotCheckViewModel.searchByPlates.observe(this, new Observer<List<SpotCheck>>() {
+            @Override
+            public void onChanged(List<SpotCheck> spotChecks) {
+                renderList(spotChecks);
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                spotCheckViewModel.filterLiveData.setValue(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.equals("")) {
+                    spotCheckViewModel.filterLiveData.setValue("");
+                }
+                return false;
             }
         });
     }
@@ -91,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             gridAdapter.setSpotChecks(spotChecks);
             drawSpotCheckItems(gridAdapter, R.drawable.list, Color.TRANSPARENT, 80);
         }
-        startScreen();
+//        startScreen();
     }
 
     public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height) {
@@ -145,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
             String notes = data.getStringExtra("notes");
             SpotCheck newSpotCheck = new SpotCheck(numberPlate, date, location, carMake, carModel, result, notes);
             spotCheckViewModel.insert(newSpotCheck);
+        } else if (requestCode == OPEN_SPOT_CHECK && resultCode == RESULT_OK) {
+            SpotCheck spot = isList ? listAdapter.getSpotAt(selectedSpot) : gridAdapter.getSpotAt(selectedSpot);
+            spotCheckViewModel.delete(spot);
         }
     }
 
@@ -162,12 +197,4 @@ public class MainActivity extends AppCompatActivity {
         Intent emailScreen = new Intent(this, EmailActivity.class);
         startActivityForResult(emailScreen, 0);
     }
-
-    //FIXME: Testing method
-    public void deleteAll(View view) {
-        spotCheckViewModel.deleteAll();
-        Toast.makeText(MainActivity.this, "All Spots deleted", Toast.LENGTH_SHORT).show();
-    }
 }
-//CAR MAKERS API
-//https://private-anon-bd2fed49be-carsapi1.apiary-mock.com/manufacturers
