@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,11 +15,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ import me.gustavozapata.spotter.utils.ListAdapter;
 public class MainActivity extends AppCompatActivity {
     public static final int ADD_SPOT_CHECK = 1;
     public static final int OPEN_SPOT_CHECK = 2;
+    public static final int EMAIL_SPOTS = 3;
 
     private SharedPreferences mPreferences;
     private String sharedPrefFile = "me.gustavozpata.spotter.sharedprefs";
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     boolean isList;
     List<SpotCheck> list = new ArrayList<>();
+    ArrayList<String> listEmail = new ArrayList<>();
     int selectedSpot;
 
     final ListAdapter listAdapter = new ListAdapter(this, list);
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         spotCheckViewModel = ViewModelProviders.of(this).get(SpotCheckViewModel.class);
         spotCheckViewModel.getAllSpotChecks().observe(this, new Observer<List<SpotCheck>>() {
             @Override
-            public void onChanged(List<SpotCheck> spotChecks) { //whenever the ViewModel changes this runs
+            public void onChanged(List<SpotCheck> spotChecks) {
                 renderList(spotChecks);
             }
         });
@@ -108,10 +114,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 if (s.equals("")) {
                     spotCheckViewModel.filterLiveData.setValue("");
+                    hideKeyboard();
                 }
                 return false;
             }
         });
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     public void renderList(List<SpotCheck> spotChecks) {
@@ -168,19 +180,51 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_SPOT_CHECK && resultCode == RESULT_OK) {
-            String numberPlate = data.getStringExtra("numberPlate");
-            String carMake = data.getStringExtra("carMake");
-            String carModel = data.getStringExtra("carModel");
-            String result = data.getStringExtra("result");
-            String location = data.getStringExtra("location");
-            String date = data.getStringExtra("date");
-            String notes = data.getStringExtra("notes");
-            SpotCheck newSpotCheck = new SpotCheck(numberPlate, date, location, carMake, carModel, result, notes);
-            spotCheckViewModel.insert(newSpotCheck);
+            insertNewSpotCheck(data);
         } else if (requestCode == OPEN_SPOT_CHECK && resultCode == RESULT_OK) {
             SpotCheck spot = isList ? listAdapter.getSpotAt(selectedSpot) : gridAdapter.getSpotAt(selectedSpot);
             spotCheckViewModel.delete(spot);
+        } else if (requestCode == EMAIL_SPOTS && resultCode == RESULT_OK) {
+            for (SpotCheck spotCheck : list) {
+                for (String emailedSpot : listEmail) {
+                    if (spotCheck.getId().equals(emailedSpot)) {
+                        SpotCheck updateSpot = new SpotCheck(
+                                spotCheck.getNumberPlate(),
+                                spotCheck.getDate(),
+                                spotCheck.getLocation(),
+                                spotCheck.getCarMake(),
+                                spotCheck.getCarModel(),
+                                spotCheck.getResult(),
+                                spotCheck.getNotes());
+                        updateSpot.setId(spotCheck.getId());
+                        updateSpot.setSent(true);
+                        spotCheckViewModel.update(updateSpot);
+                    }
+                }
+            }
+            displayEmailToast();
         }
+    }
+
+    private void displayEmailToast() {
+        Toast toast = Toast.makeText(this, "Email sent!", Toast.LENGTH_SHORT);
+        View toastView = toast.getView();
+        toastView.setBackgroundResource(R.drawable.toast);
+        TextView text = toastView.findViewById(android.R.id.message);
+        text.setTextColor(Color.WHITE);
+        toast.show();
+    }
+
+    private void insertNewSpotCheck(Intent data) {
+        String numberPlate = data.getStringExtra("numberPlate");
+        String carMake = data.getStringExtra("carMake");
+        String carModel = data.getStringExtra("carModel");
+        String result = data.getStringExtra("result");
+        String location = data.getStringExtra("location");
+        String date = data.getStringExtra("date");
+        String notes = data.getStringExtra("notes");
+        SpotCheck newSpotCheck = new SpotCheck(numberPlate, date, location, carMake, carModel, result, notes);
+        spotCheckViewModel.insert(newSpotCheck);
     }
 
     public void toggleListView(View view) {
@@ -195,6 +239,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void openEmailSpotChecks(View view) {
         Intent emailScreen = new Intent(this, EmailActivity.class);
-        startActivityForResult(emailScreen, 0);
+        String spots = "";
+        String allSpots = "";
+        for (SpotCheck spotCheck : list) {
+            if (!spotCheck.isSent()) {
+                listEmail.add(spotCheck.getId());
+                spots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
+                spots += "•Car make: " + spotCheck.getCarMake() + "\n";
+                spots += "•Car model: " + spotCheck.getCarModel() + "\n";
+                spots += "•Location: " + spotCheck.getLocation() + "\n";
+                spots += "•Date: " + spotCheck.getDate() + "\n";
+                spots += "•Result: " + spotCheck.getResult() + "\n";
+                spots += "•Notes : " + spotCheck.getNotes() + "\n";
+                spots += "\n";
+            }
+        }
+
+        for (SpotCheck spotCheck : list) {
+            allSpots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
+            allSpots += "•Car make: " + spotCheck.getCarMake() + "\n";
+            allSpots += "•Car model: " + spotCheck.getCarModel() + "\n";
+            allSpots += "•Location: " + spotCheck.getLocation() + "\n";
+            allSpots += "•Date: " + spotCheck.getDate() + "\n";
+            allSpots += "•Result: " + spotCheck.getResult() + "\n";
+            allSpots += "•Notes : " + spotCheck.getNotes() + "\n";
+            allSpots += "\n";
+        }
+        emailScreen.putExtra("spotsToSend", spots);
+        emailScreen.putExtra("allSpotsToSend", allSpots);
+        startActivityForResult(emailScreen, EMAIL_SPOTS);
+    }
+
+    public void contentsOfEmail(String spots) {
+
     }
 }

@@ -25,6 +25,10 @@ public class SpotterRepo {
         new InsertAsyncTask(spotterDao).execute(spotCheck);
     }
 
+    public void update(SpotCheck spotCheck){
+        new UpdateAsyncTask(spotterDao).execute(spotCheck);
+    }
+
     public void delete(SpotCheck spotCheck){
         new DeleteAsyncTask(spotterDao).execute(spotCheck);
     }
@@ -45,6 +49,19 @@ public class SpotterRepo {
         @Override
         protected Void doInBackground(SpotCheck... spotChecks) {
             asyncTaskDao.insert(spotChecks[0]);
+            return null;
+        }
+    }
+
+    //Update
+    private static class UpdateAsyncTask extends AsyncTask<SpotCheck, Void, Void> {
+        private SpotterDao asyncTaskDao;
+        UpdateAsyncTask(SpotterDao dao){
+            asyncTaskDao = dao;
+        }
+        @Override
+        protected Void doInBackground(SpotCheck... spotChecks) {
+            asyncTaskDao.update(spotChecks[0]);
             return null;
         }
     }

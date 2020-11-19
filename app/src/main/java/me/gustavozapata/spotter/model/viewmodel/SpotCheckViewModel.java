@@ -44,6 +44,10 @@ public class SpotCheckViewModel extends AndroidViewModel {
         repo.insert(spotCheck);
     }
 
+    public void update(SpotCheck spotCheck){
+        repo.update(spotCheck);
+    }
+
     public void delete(SpotCheck spotCheck){
         repo.delete(spotCheck);
     }

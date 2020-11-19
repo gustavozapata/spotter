@@ -16,6 +16,7 @@
             android:layout_width="304dp"
             android:layout_height="225dp"
             android:layout_marginTop="28dp"
+            android:contentDescription="@string/image_office"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,43 +27,15 @@
             android:id="@+id/imageView6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="50dp"
+            android:contentDescription="@string/icon_send"
             android:onClick="composeAndSend"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup"
             app:srcCompat="@drawable/send" />
 
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="sans-serif-black"
-            android:text="Send"
-            android:textColor="@android:color/black"
-            android:textSize="26sp"
-            android:onClick="composeAndSend"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.463"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Email Spot Checks to the office"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -79,16 +52,17 @@
                 android:layout_marginStart="52dp"
                 android:layout_marginLeft="52dp"
                 android:layout_marginTop="40dp"
-                android:lineSpacingExtra="5sp"
-                android:gravity="top"
                 android:checked="true"
-                android:text="Email only Spot Checks that have not being emailed"
-                android:textSize="16sp"
+                android:gravity="top"
+                android:lineSpacingExtra="5sp"
                 android:onClick="selectEmailOption"
+                android:text="@string/email_latest"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.015"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
             <RadioButton
                 android:id="@+id/allEmail"
                 android:layout_width="wrap_content"
@@ -97,11 +71,40 @@
                 android:layout_marginLeft="52dp"
                 android:layout_marginTop="32dp"
                 android:onClick="selectEmailOption"
-                android:text="Email all the Spot Checks"
+                android:text="@string/email_all"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/latestEmail" />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/email_title"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-black"
+            android:onClick="composeAndSend"
+            android:text="@string/send"
+            android:textColor="@android:color/black"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.463"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

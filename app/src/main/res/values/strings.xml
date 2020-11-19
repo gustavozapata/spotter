@@ -6,6 +6,10 @@
     <string name="sort_date"><u>Sort by Date</u></string>
     <string name="delete_spot"><u>Delete</u></string>
     <string name="notes">Notes</string>
+    <string name="send">Send</string>
+    <string name="email_title">Email Spot Checks to the office</string>
+    <string name="email_latest">Email only Spot Checks that have not being emailed</string>
+    <string name="email_all">Email all the Spot Checks</string>
     <string name="start_img_desc">No records found</string>
     <string name="start_msg">There are not Spot Checks :( \n Tap the \'Spot Check\' button to add one</string>
 
@@ -14,6 +18,7 @@
     <string name="label_make">MAKE</string>
     <string name="label_model">MODEL</string>
     <string name="label_location">LOCATION</string>
+    <string name="label_location_lower">Location</string>
     <string name="label_result">RESULT</string>
     <string name="label_result_lower">Result</string>
     <string name="label_notes">NOTES</string>
@@ -21,11 +26,12 @@
     <string name="button_create">Create</string>
     <string name="result_no_action">No action required</string>
     <string name="no_record_car">Car: No record</string>
-    <string name="no_record_location">Location: No record</string>
+    <string name="no_record">No record</string>
 
     <!--    Images-->
     <string name="icon_send">Send icon</string>
     <string name="icon_grid">List/Grid icon</string>
+    <string name="image_office">Desktop office image</string>
 
     <!--    Spinner-->
     <string name="result_advice_given">Advice given</string>

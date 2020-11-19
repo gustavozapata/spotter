@@ -13,16 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="265dp"
-            android:layout_height="198dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailedDate"
-            app:srcCompat="@drawable/start" />
-
         <TextView
             android:id="@+id/detailedCar"
             android:layout_width="wrap_content"
@@ -43,24 +33,31 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-medium"
+            android:text="@string/no_record"
+            android:textColor="@color/darkGray"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailedCar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/detailedNumberPlate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="157dp"
+            android:layout_height="40dp"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/plate"
             android:fontFamily="sans-serif-medium"
-            android:text="DV2343X"
+            android:gravity="center_horizontal"
+            android:paddingTop="4dp"
+            android:text="@string/placeholder_plate"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedDate" />
 
         <TextView
             android:id="@+id/textView12"
@@ -68,26 +65,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:fontFamily="sans-serif-medium"
             android:text="@string/label_result_lower"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedLocation" />
 
         <TextView
             android:id="@+id/detailedResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="sans-serif-medium"
             android:textColor="#22C058"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailedLocation" />
 
         <TextView
             android:id="@+id/textView14"
@@ -95,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="48dp"
             android:fontFamily="sans-serif-medium"
             android:text="@string/label_notes_lower"
             android:textColor="@android:color/black"
@@ -139,12 +136,14 @@
             android:id="@+id/detailedLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:text="@string/no_record_location"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/no_record"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/textView3"
@@ -159,5 +158,19 @@
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/label_location_lower"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailedCar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

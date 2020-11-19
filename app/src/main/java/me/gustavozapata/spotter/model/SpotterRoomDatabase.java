@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {SpotCheck.class}, version = 3)
+@Database(entities = {SpotCheck.class}, version = 4)
 public abstract class SpotterRoomDatabase extends RoomDatabase {
 
     public abstract SpotterDao spotterDao();

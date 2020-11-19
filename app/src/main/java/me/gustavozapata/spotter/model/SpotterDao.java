@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public interface SpotterDao {
 
     @Insert
     void insert(SpotCheck spotCheck);
+
+    @Update
+    void update(SpotCheck spotCheck);
 
     @Delete
     void delete(SpotCheck spotCheck);
