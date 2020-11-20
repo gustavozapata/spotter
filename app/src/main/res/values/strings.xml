@@ -7,6 +7,7 @@
     <string name="delete_spot"><u>Delete</u></string>
     <string name="notes">Notes</string>
     <string name="send">Send</string>
+    <string name="search_hint">Search by all fields</string>
     <string name="email_title">Email Spot Checks to the office</string>
     <string name="email_latest">Email only Spot Checks that have not being emailed</string>
     <string name="email_all">Email all the Spot Checks</string>

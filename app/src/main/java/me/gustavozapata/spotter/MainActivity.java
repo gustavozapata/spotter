@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.gustavozapata.spotter.model.SpotCheck;
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 SpotCheck spot = isList ? listAdapter.getSpotAt(--i) : gridAdapter.getSpotAt(--i);
                 selectedSpot = i;
-                Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheck.class);
+                Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheckActivity.class);
                 detailedScreen.putExtra("spotCheckNumberPlate", spot.getNumberPlate());
                 detailedScreen.putExtra("spotCheckCar", spot.getCarMake() + " " + spot.getCarModel());
                 detailedScreen.putExtra("spotCheckDate", spot.getDate());
@@ -242,35 +244,45 @@ public class MainActivity extends AppCompatActivity {
         String spots = "";
         String allSpots = "";
         for (SpotCheck spotCheck : list) {
+            allSpots += contentsOfEmail(spotCheck);
             if (!spotCheck.isSent()) {
                 listEmail.add(spotCheck.getId());
-                spots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
-                spots += "•Car make: " + spotCheck.getCarMake() + "\n";
-                spots += "•Car model: " + spotCheck.getCarModel() + "\n";
-                spots += "•Location: " + spotCheck.getLocation() + "\n";
-                spots += "•Date: " + spotCheck.getDate() + "\n";
-                spots += "•Result: " + spotCheck.getResult() + "\n";
-                spots += "•Notes : " + spotCheck.getNotes() + "\n";
-                spots += "\n";
+                spots += contentsOfEmail(spotCheck);
             }
-        }
-
-        for (SpotCheck spotCheck : list) {
-            allSpots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
-            allSpots += "•Car make: " + spotCheck.getCarMake() + "\n";
-            allSpots += "•Car model: " + spotCheck.getCarModel() + "\n";
-            allSpots += "•Location: " + spotCheck.getLocation() + "\n";
-            allSpots += "•Date: " + spotCheck.getDate() + "\n";
-            allSpots += "•Result: " + spotCheck.getResult() + "\n";
-            allSpots += "•Notes : " + spotCheck.getNotes() + "\n";
-            allSpots += "\n";
         }
         emailScreen.putExtra("spotsToSend", spots);
         emailScreen.putExtra("allSpotsToSend", allSpots);
         startActivityForResult(emailScreen, EMAIL_SPOTS);
     }
 
-    public void contentsOfEmail(String spots) {
+    public String contentsOfEmail(SpotCheck spotCheck) {
+        String spots = "";
+        spots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
+        spots += "•Car make: " + spotCheck.getCarMake() + "\n";
+        spots += "•Car model: " + spotCheck.getCarModel() + "\n";
+        spots += "•Location: " + spotCheck.getLocation() + "\n";
+        spots += "•Date: " + spotCheck.getDate() + "\n";
+        spots += "•Result: " + spotCheck.getResult() + "\n";
+        spots += "•Notes : " + spotCheck.getNotes() + "\n";
+        spots += "\n";
+        return spots;
+    }
 
+    public void sortByResult(View view) {
+        Collections.sort(list, new Comparator<SpotCheck>() {
+            public int compare(SpotCheck spot1, SpotCheck spot2) {
+                return spot1.getResult().compareTo(spot2.getResult());
+            }
+        });
+        renderList(list);
+    }
+
+    public void sortByDate(View view) {
+        Collections.sort(list, new Comparator<SpotCheck>() {
+            public int compare(SpotCheck spot1, SpotCheck spot2) {
+                return spot1.getDate().compareTo(spot2.getDate());
+            }
+        });
+        renderList(list);
     }
 }

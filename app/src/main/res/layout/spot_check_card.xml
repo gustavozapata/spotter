@@ -14,7 +14,7 @@
         android:layout_marginEnd="38dp"
         android:layout_marginRight="38dp"
         android:background="@drawable/spotcheck_container"
-        android:paddingBottom="16dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,9 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-medium"
-            android:text="18 October 2020"
+            android:text="@string/no_record"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,34 +36,40 @@
             android:id="@+id/textViewCarPlate"
             android:layout_width="178dp"
             android:layout_height="46dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/plate"
             android:fontFamily="sans-serif-black"
             android:gravity="center_horizontal"
-            android:paddingTop="8dp"
-            android:paddingLeft="5dp"
-            android:text="UK PL8TE"
             android:letterSpacing="0.2"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:text="@string/no_record"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewSpotCheckDate" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewSpotCheckLocation" />
 
         <TextView
             android:id="@+id/textViewCar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Mazda 3 2008"
+            android:text="@string/no_record"
             android:textColor="#373737"
             android:textSize="18sp"
+            android:textAlignment="center"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCarPlate" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarPlate"
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/textViewResultLabel"
@@ -70,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
             android:text="@string/label_result_lower"
             android:textColor="@android:color/black"
@@ -82,7 +89,7 @@
             android:id="@+id/textViewResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
             android:text="@string/result_no_action"
             android:textColor="#22C058"
@@ -96,13 +103,18 @@
             android:id="@+id/textViewSpotCheckLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-medium"
-            android:text="TW12 1SY"
+            android:text="@string/no_record"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSpotCheckDate"
+            android:gravity="center_horizontal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,7 +13,7 @@ import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
 
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
 
-public class DetailedSpotCheck extends AppCompatActivity {
+public class DetailedSpotCheckActivity extends AppCompatActivity {
 
     private SpotCheckViewModel spotCheckViewModel;
     TextView detailedNumberPlate;

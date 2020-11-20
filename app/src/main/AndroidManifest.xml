@@ -18,7 +18,7 @@
                 android:value="me.gustavozapata.spotter.MainActivity" />
         </activity>
         <activity
-            android:name=".DetailedSpotCheck"
+            android:name=".DetailedSpotCheckActivity"
             android:label="Spot Check"
             android:parentActivityName=".MainActivity">
             <meta-data
