@@ -6,7 +6,10 @@
     <string name="sort_date"><u>Sort by Date</u></string>
     <string name="delete_spot"><u>Delete</u></string>
     <string name="notes">Notes</string>
+    <string name="search_dates">Search Dates</string>
     <string name="send">Send</string>
+    <string name="clear">Clear Search</string>
+    <string name="search_result_msg">Item(s) below match the search, even though not all fields are shown</string>
     <string name="search_hint">Search by all fields</string>
     <string name="email_title">Email Spot Checks to the office</string>
     <string name="email_latest">Email only Spot Checks that have not being emailed</string>
@@ -16,6 +19,9 @@
 
     <!--    Spot Check-->
     <string name="placeholder_plate"># PLATE</string>
+    <string name="label_plate">Plate</string>
+    <string name="label_date">Date</string>
+    <string name="label_car">Car</string>
     <string name="label_make">MAKE</string>
     <string name="label_model">MODEL</string>
     <string name="label_location">LOCATION</string>
@@ -33,6 +39,7 @@
     <string name="icon_send">Send icon</string>
     <string name="icon_grid">List/Grid icon</string>
     <string name="image_office">Desktop office image</string>
+    <string name="image_arrow">Right Arrow image</string>
 
     <!--    Spinner-->
     <string name="result_advice_given">Advice given</string>

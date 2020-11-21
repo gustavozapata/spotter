@@ -13,6 +13,7 @@ import me.gustavozapata.spotter.R;
 import me.gustavozapata.spotter.model.SpotCheck;
 
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
 
 public class GridAdapter extends BaseAdapter {
     List<SpotCheck> list;
@@ -61,7 +62,7 @@ public class GridAdapter extends BaseAdapter {
         TextView result = row.findViewById(R.id.textViewResult);
         colourResult(temp.getResult(), result);
 
-        date.setText(temp.getDate());
+        date.setText(convertDateToString(temp.getDate()));
         location.setText(temp.getLocation());
         plateNumber.setText(temp.getNumberPlate());
         String car = temp.getCarMake() + " - " + temp.getCarModel();

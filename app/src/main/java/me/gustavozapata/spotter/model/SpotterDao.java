@@ -7,12 +7,12 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
 public interface SpotterDao {
 
-    //@Query("SELECT * FROM SpotCheck ORDER BY date ASC") //ASC = 0 to 9 or A to Z or 10 Jan to 10 Dec
     @Query("SELECT * FROM SpotCheck")
     LiveData<List<SpotCheck>> getAllSpotChecks();
 
@@ -30,8 +30,9 @@ public interface SpotterDao {
             "OR carModel LIKE '%' || :term || '%' " +
             "OR result LIKE '%' || :term || '%' " +
             "OR notes LIKE '%' || :term || '%' " +
-            "OR date LIKE '%' || :term || '%' " +
-            "OR location LIKE '%' || :term || '%' " +
-            "ORDER BY numberPlate ASC")
-    LiveData<List<SpotCheck>> searchNumberPlates(String term);
+            "OR location LIKE '%' || :term || '%' ")
+    LiveData<List<SpotCheck>> searchByAllFields(String term);
+
+    @Query("SELECT * FROM SpotCheck WHERE date = :date")
+    LiveData<List<SpotCheck>> searchByDate(Date date);
 }

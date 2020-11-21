@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +18,7 @@ public class SpotCheck {
     private String numberPlate;
 
     @NonNull
-    private String date;
+    private Date date;
 
     @NonNull
     private String result;
@@ -29,7 +30,7 @@ public class SpotCheck {
     private boolean sent;
 
 
-    public SpotCheck(@NonNull String numberPlate, @NonNull String date, String location, String carMake, String carModel, @NonNull String result, String notes) {
+    public SpotCheck(@NonNull String numberPlate, @NonNull Date date, String location, String carMake, String carModel, @NonNull String result, String notes) {
         this.id = UUID.randomUUID().toString();
         this.numberPlate = numberPlate;
         this.date = date;
@@ -47,7 +48,7 @@ public class SpotCheck {
     }
 
     @NonNull
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 

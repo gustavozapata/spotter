@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import java.util.Date;
 import java.util.List;
 
 import me.gustavozapata.spotter.model.SpotCheck;
@@ -19,19 +20,29 @@ public class SpotCheckViewModel extends AndroidViewModel {
     private SpotterRepo repo;
     private LiveData<List<SpotCheck>> allSpotChecks;
 
-    public LiveData<List<SpotCheck>> searchByPlates;
+    public LiveData<List<SpotCheck>> searchByFields;
+    public LiveData<List<SpotCheck>> searchByDate;
     public MutableLiveData<String> filterLiveData = new MutableLiveData<>();
+    public MutableLiveData<Date> filterLiveDataDate = new MutableLiveData<>();
 
     public SpotCheckViewModel(@NonNull Application application) {
         super(application);
         repo = new SpotterRepo(application);
         allSpotChecks = repo.getAllSpotChecks();
 
-        searchByPlates = Transformations.switchMap(filterLiveData,
+        searchByFields = Transformations.switchMap(filterLiveData,
                 new Function<String, LiveData<List<SpotCheck>>>() {
                     @Override
-                    public LiveData<List<SpotCheck>> apply(String plate) {
-                        return repo.searchNumberPlates(plate);
+                    public LiveData<List<SpotCheck>> apply(String term) {
+                        return repo.searchByAllFields(term);
+                    }
+                });
+
+        searchByDate = Transformations.switchMap(filterLiveDataDate,
+                new Function<Date, LiveData<List<SpotCheck>>>() {
+                    @Override
+                    public LiveData<List<SpotCheck>> apply(Date date) {
+                        return repo.searchByDate(date);
                     }
                 });
     }

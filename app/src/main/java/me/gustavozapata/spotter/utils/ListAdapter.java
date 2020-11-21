@@ -12,6 +12,8 @@ import java.util.List;
 import me.gustavozapata.spotter.R;
 import me.gustavozapata.spotter.model.SpotCheck;
 
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
+
 public class ListAdapter extends BaseAdapter {
     List<SpotCheck> list;
     Context c;
@@ -56,7 +58,7 @@ public class ListAdapter extends BaseAdapter {
         TextView rowDate = row.findViewById(R.id.rowDate);
         rowPlate.setText(temp.getNumberPlate());
         rowResult.setText(temp.getResult());
-        rowDate.setText(temp.getDate());
+        rowDate.setText(convertDateToString(temp.getDate()));
 
         return row;
     }

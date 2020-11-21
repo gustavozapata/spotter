@@ -2,22 +2,24 @@ package me.gustavozapata.spotter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -25,14 +27,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import me.gustavozapata.spotter.model.SpotCheck;
 import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
 import me.gustavozapata.spotter.utils.GridAdapter;
 import me.gustavozapata.spotter.utils.ListAdapter;
+
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertStringToDate;
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.pickDate;
 
 public class MainActivity extends AppCompatActivity {
     public static final int ADD_SPOT_CHECK = 1;
@@ -47,13 +55,20 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ImageView listGridIcon;
     SearchView searchView;
-    boolean isList;
+    TextView searchByDateView;
+    TextView resultsMessage;
+
     List<SpotCheck> list = new ArrayList<>();
     ArrayList<String> listEmail = new ArrayList<>();
+
+    boolean isList;
+    boolean clearSearch = true;
+    boolean readyToEmail = false;
     int selectedSpot;
 
     final ListAdapter listAdapter = new ListAdapter(this, list);
     final GridAdapter gridAdapter = new GridAdapter(this, list);
+    final Calendar calendar = Calendar.getInstance();
 
     //When activity is created (or recreated)
     @Override
@@ -85,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheckActivity.class);
                 detailedScreen.putExtra("spotCheckNumberPlate", spot.getNumberPlate());
                 detailedScreen.putExtra("spotCheckCar", spot.getCarMake() + " " + spot.getCarModel());
-                detailedScreen.putExtra("spotCheckDate", spot.getDate());
+                detailedScreen.putExtra("spotCheckDate", convertDateToString(spot.getDate()));
                 detailedScreen.putExtra("spotCheckLocation", spot.getLocation());
                 detailedScreen.putExtra("spotCheckResult", spot.getResult());
                 detailedScreen.putExtra("spotCheckNotes", spot.getNotes());
@@ -99,16 +114,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchViewFunctionality() {
         searchView = findViewById(R.id.searchView);
-        spotCheckViewModel.searchByPlates.observe(this, new Observer<List<SpotCheck>>() {
+        spotCheckViewModel.searchByFields.observe(this, new Observer<List<SpotCheck>>() {
             @Override
             public void onChanged(List<SpotCheck> spotChecks) {
                 renderList(spotChecks);
+                if (readyToEmail) {
+                    prepareEmailSpots();
+                }
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 spotCheckViewModel.filterLiveData.setValue(s);
+                resultsMessage = findViewById(R.id.resultsMessage);
+                resultsMessage.setVisibility(View.VISIBLE);
                 return false;
             }
 
@@ -116,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 if (s.equals("")) {
                     spotCheckViewModel.filterLiveData.setValue("");
+                    resultsMessage = findViewById(R.id.resultsMessage);
+                    resultsMessage.setVisibility(View.INVISIBLE);
                     hideKeyboard();
                 }
                 return false;
@@ -137,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
             gridAdapter.setSpotChecks(spotChecks);
             drawSpotCheckItems(gridAdapter, R.drawable.list, Color.TRANSPARENT, 80);
         }
-//        startScreen();
     }
 
     public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height) {
@@ -149,18 +170,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setDivider(lineDivider);
         listView.setDividerHeight(height);
 
-    }
-
-    public void startScreen() {
-        ConstraintLayout startView = findViewById(R.id.startView);
-        listView = findViewById(R.id.spotChecksListView);
-        if (list.size() < 1) {
-            listView.setVisibility(View.GONE);
-            startView.setVisibility(View.VISIBLE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            startView.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -223,8 +232,8 @@ public class MainActivity extends AppCompatActivity {
         String carModel = data.getStringExtra("carModel");
         String result = data.getStringExtra("result");
         String location = data.getStringExtra("location");
-        String date = data.getStringExtra("date");
         String notes = data.getStringExtra("notes");
+        Date date = convertStringToDate(data.getStringExtra("date"));
         SpotCheck newSpotCheck = new SpotCheck(numberPlate, date, location, carMake, carModel, result, notes);
         spotCheckViewModel.insert(newSpotCheck);
     }
@@ -240,6 +249,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openEmailSpotChecks(View view) {
+        readyToEmail = true;
+        spotCheckViewModel.filterLiveData.setValue("");
+        styleSearchDate(R.drawable.corner_radius, R.string.search_dates, "#797979");
+        resultsMessage = findViewById(R.id.resultsMessage);
+        resultsMessage.setVisibility(View.INVISIBLE);
+        clearSearch = true;
+    }
+
+    public void prepareEmailSpots() {
+        readyToEmail = false;
         Intent emailScreen = new Intent(this, EmailActivity.class);
         String spots = "";
         String allSpots = "";
@@ -261,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         spots += "•Car make: " + spotCheck.getCarMake() + "\n";
         spots += "•Car model: " + spotCheck.getCarModel() + "\n";
         spots += "•Location: " + spotCheck.getLocation() + "\n";
-        spots += "•Date: " + spotCheck.getDate() + "\n";
+        spots += "•Date: " + convertDateToString(spotCheck.getDate()) + "\n";
         spots += "•Result: " + spotCheck.getResult() + "\n";
         spots += "•Notes : " + spotCheck.getNotes() + "\n";
         spots += "\n";
@@ -284,5 +303,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         renderList(list);
+    }
+
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            spotCheckViewModel.filterLiveDataDate.setValue(pickDate(year, monthOfYear, dayOfMonth));
+            spotCheckViewModel.searchByDate.observe(MainActivity.this, new Observer<List<SpotCheck>>() {
+                @Override
+                public void onChanged(List<SpotCheck> spotChecks) {
+                    renderList(spotChecks);
+                    if (!clearSearch) {
+                        styleSearchDate(R.drawable.container_shadow, R.string.clear, "#FFFFFF");
+                        searchView = findViewById(R.id.searchView);
+                    }
+                }
+            });
+        }
+    };
+
+    public void searchByDate(View view) {
+        styleSearchDate(R.drawable.corner_radius, R.string.search_dates, "#797979");
+        if (clearSearch) {
+            clearSearch = false;
+            new DatePickerDialog(MainActivity.this, date, calendar
+                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)).show();
+        } else {
+            clearSearch = true;
+            spotCheckViewModel.filterLiveData.setValue("");
+        }
+    }
+
+    public void styleSearchDate(int background, int label, String color) {
+        searchByDateView = findViewById(R.id.searchByDateView);
+        searchByDateView.setBackground(ContextCompat.getDrawable(MainActivity.this, background));
+        searchByDateView.setText(getString(label));
+        searchByDateView.setTextColor(Color.parseColor(color));
     }
 }

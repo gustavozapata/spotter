@@ -5,8 +5,12 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-@Database(entities = {SpotCheck.class}, version = 4)
+import me.gustavozapata.spotter.utils.Converters;
+
+@Database(entities = {SpotCheck.class}, version = 6)
+@TypeConverters({Converters.class})
 public abstract class SpotterRoomDatabase extends RoomDatabase {
 
     public abstract SpotterDao spotterDao();

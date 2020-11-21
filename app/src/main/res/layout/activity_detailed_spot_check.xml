@@ -39,7 +39,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/no_record"
+            android:text="@string/label_date"
             android:textColor="@color/darkGray"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"

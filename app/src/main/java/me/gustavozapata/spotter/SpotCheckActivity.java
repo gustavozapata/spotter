@@ -14,13 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
+import static me.gustavozapata.spotter.utils.SpotCheckUtils.pickDate;
 
 public class SpotCheckActivity extends AppCompatActivity {
 
-    final Calendar myCalendar = Calendar.getInstance();
+    final Calendar calendar = Calendar.getInstance();
     TextView spotCheckDate;
     EditText plateNumber;
     EditText carMake;
@@ -33,23 +34,14 @@ public class SpotCheckActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            displayDate();
+            spotCheckDate.setText(convertDateToString(pickDate(year, monthOfYear, dayOfMonth)));
         }
     };
 
     public void selectDate(View view) {
-        new DatePickerDialog(SpotCheckActivity.this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
-    private void displayDate() {
-        String dateFormat = "dd MMM, yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.UK);
-        spotCheckDate.setText(simpleDateFormat.format(myCalendar.getTime()));
+        new DatePickerDialog(SpotCheckActivity.this, date, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     @Override
@@ -69,7 +61,7 @@ public class SpotCheckActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         resultsDropdown.setAdapter(adapter);
 
-        displayDate();
+        spotCheckDate.setText(convertDateToString(calendar.getTime()));
     }
 
     //When 'back' button on toolbar is pressed
@@ -83,13 +75,13 @@ public class SpotCheckActivity extends AppCompatActivity {
     }
 
     public void createSpotCheck(View view) {
-        if(!plateNumber.getText().toString().trim().isEmpty()){
+        if (!plateNumber.getText().toString().trim().isEmpty()) {
             Intent replyIntent = new Intent();
             replyIntent.putExtra("numberPlate", plateNumber.getText().toString());
             replyIntent.putExtra("carMake", carMake.getText().toString());
             replyIntent.putExtra("carModel", carModel.getText().toString());
             replyIntent.putExtra("result", resultsDropdown.getSelectedItem().toString());
-            replyIntent.putExtra("date", spotCheckDate.getText().toString());
+            replyIntent.putExtra("date", spotCheckDate.getText());
             replyIntent.putExtra("location", location.getText().toString());
             replyIntent.putExtra("notes", notes.getText().toString());
             setResult(RESULT_OK, replyIntent);

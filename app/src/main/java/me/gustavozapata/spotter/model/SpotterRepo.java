@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.Date;
 import java.util.List;
 
 public class SpotterRepo {
@@ -34,8 +35,11 @@ public class SpotterRepo {
     }
 
     //Search
-    public LiveData<List<SpotCheck>> searchNumberPlates(String plate){
-        return spotterDao.searchNumberPlates(plate);
+    public LiveData<List<SpotCheck>> searchByAllFields(String term){
+        return spotterDao.searchByAllFields(term);
+    }
+    public LiveData<List<SpotCheck>> searchByDate(Date date){
+        return spotterDao.searchByDate(date);
     }
 
     //Insert

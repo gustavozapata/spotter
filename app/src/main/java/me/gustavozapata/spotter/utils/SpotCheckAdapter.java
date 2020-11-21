@@ -30,7 +30,7 @@ public class SpotCheckAdapter extends RecyclerView.Adapter<SpotCheckAdapter.Spot
     @Override
     public void onBindViewHolder(@NonNull SpotCheckViewHolder holder, int position) {
         SpotCheck currentSpot = spotChecks.get(position);
-        holder.date.setText(currentSpot.getDate());
+//        holder.date.setText(currentSpot.getDate());
         holder.location.setText(currentSpot.getLocation());
         holder.numberPlate.setText(currentSpot.getNumberPlate());
         String car = currentSpot.getCarMake() + " - " + currentSpot.getCarModel();
