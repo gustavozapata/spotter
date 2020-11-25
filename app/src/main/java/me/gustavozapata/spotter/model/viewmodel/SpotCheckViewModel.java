@@ -15,6 +15,7 @@ import java.util.List;
 import me.gustavozapata.spotter.model.SpotCheck;
 import me.gustavozapata.spotter.model.SpotterRepo;
 
+//This is similar to the controller from the MVC design pattern - it connects the database (repo, dao) to the view
 public class SpotCheckViewModel extends AndroidViewModel {
 
     private SpotterRepo repo;

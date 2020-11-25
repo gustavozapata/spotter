@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.Date;
 import java.util.List;
 
+//this interface defines the methods that will modify the database and it takes the actual SQL queries
 @Dao
 public interface SpotterDao {
 

@@ -8,8 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+//This is a util class with useful static methods to use in other classes
 public class SpotCheckUtils {
 
+    //This method sets the text colour to the 'result' of the spot check
     public static void colourResult(String result, TextView textView) {
         if (result != null) {
             switch (result) {
@@ -29,6 +31,8 @@ public class SpotCheckUtils {
         }
     }
 
+    //This method sets the prefer calendar format
+    //It sets time to 00:00:00 to make it easier to compare when 'searching'
     public static Date pickDate(int year, int monthOfYear, int dayOfMonth){
         final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -41,11 +45,15 @@ public class SpotCheckUtils {
         return calendar.getTime();
     }
 
+    //This method converts a Date into String
+    //useful when trying to set text to a TextView
     public static String convertDateToString(Date date){
+        //it uses the date format dd MMM, yyyy e.g. 25 Nov, 2020
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM, yyyy", Locale.UK);
         return simpleDateFormat.format(date);
     }
 
+    //This method converts a String into a Date format
     public static Date convertStringToDate(String date){
         SimpleDateFormat format = new SimpleDateFormat("dd MMM, yyyy", Locale.UK);
         try {

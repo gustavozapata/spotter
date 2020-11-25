@@ -19,6 +19,7 @@ import java.util.Calendar;
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.pickDate;
 
+//This activity is linked to the layout activity_spot_check and deals with creating a new spot check
 public class SpotCheckActivity extends AppCompatActivity {
 
     final Calendar calendar = Calendar.getInstance();
@@ -30,6 +31,7 @@ public class SpotCheckActivity extends AppCompatActivity {
     Spinner resultsDropdown;
     EditText notes;
 
+    //this runs when the actual date is selected from the datepicker
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -38,6 +40,7 @@ public class SpotCheckActivity extends AppCompatActivity {
         }
     };
 
+    //when the 'date' textView is clicked/tapped
     public void selectDate(View view) {
         new DatePickerDialog(SpotCheckActivity.this, date, calendar
                 .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -57,6 +60,7 @@ public class SpotCheckActivity extends AppCompatActivity {
         location = findViewById(R.id.editTextLocation);
         notes = findViewById(R.id.editTextNotes);
 
+        //This adapter populates the spinner (dropdown menu) with the spot check possible results (declared on the resources > values > strings)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.results_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         resultsDropdown.setAdapter(adapter);
@@ -64,9 +68,10 @@ public class SpotCheckActivity extends AppCompatActivity {
         spotCheckDate.setText(convertDateToString(calendar.getTime()));
     }
 
-    //When 'back' button on toolbar is pressed
+    //When the top menu bar item is selected/pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //checks if the item selected (pressed) is the 'back' button on the toolbar
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -74,7 +79,9 @@ public class SpotCheckActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void createSpotCheck(View view) {
+        //checks if the plate number edit text has a value
         if (!plateNumber.getText().toString().trim().isEmpty()) {
             Intent replyIntent = new Intent();
             replyIntent.putExtra("numberPlate", plateNumber.getText().toString());
@@ -86,7 +93,7 @@ public class SpotCheckActivity extends AppCompatActivity {
             replyIntent.putExtra("notes", notes.getText().toString());
             setResult(RESULT_OK, replyIntent);
             finish();
-        } else {
+        } else { //otherwise it prompts the user to add a value
             Toast.makeText(this, "Please enter a number plate", Toast.LENGTH_SHORT).show();
         }
     }

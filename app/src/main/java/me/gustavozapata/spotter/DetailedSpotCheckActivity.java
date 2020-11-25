@@ -1,7 +1,6 @@
 package me.gustavozapata.spotter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import me.gustavozapata.spotter.model.viewmodel.SpotCheckViewModel;
-
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.colourResult;
 
+//This activity is linked to the activity_detailed_spot_check layout and deals with the Spot Checks detailed information
 public class DetailedSpotCheckActivity extends AppCompatActivity {
 
-    private SpotCheckViewModel spotCheckViewModel;
     TextView detailedNumberPlate;
     TextView detailedCar;
     TextView detailedDate;
@@ -28,11 +25,10 @@ public class DetailedSpotCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_spot_check);
 
-        spotCheckViewModel = ViewModelProviders.of(this).get(SpotCheckViewModel.class);
-
         populateFields();
     }
 
+    //Populates the views with the respective spot check data
     public void populateFields() {
         detailedNumberPlate = findViewById(R.id.detailedNumberPlate);
         detailedCar = findViewById(R.id.detailedCar);
@@ -41,6 +37,7 @@ public class DetailedSpotCheckActivity extends AppCompatActivity {
         detailedNotes = findViewById(R.id.detailedNotes);
         detailedLocation = findViewById(R.id.detailedLocation);
 
+        //Get content from the intent (on the MainActivity)
         String numberPlate = getIntent().getStringExtra("spotCheckNumberPlate");
         String car = getIntent().getStringExtra("spotCheckCar");
         String date = getIntent().getStringExtra("spotCheckDate");
@@ -49,13 +46,17 @@ public class DetailedSpotCheckActivity extends AppCompatActivity {
         if (location != null && !location.isEmpty()) detailedLocation.setText(location);
         if (car != null && !car.equals(" ")) detailedCar.setText(car);
         String result = getIntent().getStringExtra("spotCheckResult");
+
+        //Colours the result text of the spot check
         colourResult(result, detailedResult);
+
         detailedNumberPlate.setText(numberPlate);
         detailedDate.setText(date);
         detailedResult.setText(result);
         detailedNotes.setText(notes);
     }
 
+    //When a spot check is deleted
     public void onDeleteSpot(View view) {
         Intent deleteSpotCheck = new Intent();
         setResult(RESULT_OK, deleteSpotCheck);

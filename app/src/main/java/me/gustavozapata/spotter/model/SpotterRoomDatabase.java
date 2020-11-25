@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import me.gustavozapata.spotter.utils.Converters;
 
+//It inherits the RoomDatabase and allows us to create the database for our app
 @Database(entities = {SpotCheck.class}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class SpotterRoomDatabase extends RoomDatabase {
@@ -17,6 +18,7 @@ public abstract class SpotterRoomDatabase extends RoomDatabase {
 
     private static SpotterRoomDatabase INSTANCE;
 
+    //the singleton design pattern is applied here (where only one instance of the object exists)
     public static SpotterRoomDatabase getDatabase(final Context context){
         if (INSTANCE == null){
             synchronized (SpotterRoomDatabase.class){

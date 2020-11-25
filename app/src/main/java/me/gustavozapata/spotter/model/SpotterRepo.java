@@ -42,6 +42,9 @@ public class SpotterRepo {
         return spotterDao.searchByDate(date);
     }
 
+    //The methods below use the AsynTask functionality that runs into a thread (without affecting the main thread of the app)
+    //it handles all the heavy lifting for us (we don't have to deal with threads in our environment)
+
     //Insert
     private static class InsertAsyncTask extends AsyncTask<SpotCheck, Void, Void> {
         private SpotterDao asyncTaskDao;

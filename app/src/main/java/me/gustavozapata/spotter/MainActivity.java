@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -42,7 +41,10 @@ import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertDateToString;
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.convertStringToDate;
 import static me.gustavozapata.spotter.utils.SpotCheckUtils.pickDate;
 
+//This is the main activity of the app and it runs when the app launches. It's linked to the activity_main layout
 public class MainActivity extends AppCompatActivity {
+
+    //These constants are used as the request code for the intents to identify which intent was finished and act accordingly
     public static final int ADD_SPOT_CHECK = 1;
     public static final int OPEN_SPOT_CHECK = 2;
     public static final int EMAIL_SPOTS = 3;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     TextView searchByDateView;
     TextView resultsMessage;
 
+    //list that holds the data returned by Room
     List<SpotCheck> list = new ArrayList<>();
     ArrayList<String> listEmail = new ArrayList<>();
 
@@ -85,16 +88,20 @@ public class MainActivity extends AppCompatActivity {
 
         //ViewModel - Room DB
         spotCheckViewModel = ViewModelProviders.of(this).get(SpotCheckViewModel.class);
+        //whenever an update/change occurs to the view model, the onChanged method runs
         spotCheckViewModel.getAllSpotChecks().observe(this, new Observer<List<SpotCheck>>() {
             @Override
             public void onChanged(List<SpotCheck> spotChecks) {
+                //calls the method and passes the spot checks returned by the database
                 renderList(spotChecks);
             }
         });
 
+        //when an item in the list is pressed, this runs and opens the activity with the information of the spot check selected
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //it checks if list or grid are currently selected and get the spot check from that specific adapter
                 SpotCheck spot = isList ? listAdapter.getSpotAt(--i) : gridAdapter.getSpotAt(--i);
                 selectedSpot = i;
                 Intent detailedScreen = new Intent(MainActivity.this, DetailedSpotCheckActivity.class);
@@ -112,8 +119,11 @@ public class MainActivity extends AppCompatActivity {
         searchViewFunctionality();
     }
 
+    //all the search functionality has been separated into this function
     public void searchViewFunctionality() {
         searchView = findViewById(R.id.searchView);
+
+        //this is going to check for changes/updates to the searchByFields live data list
         spotCheckViewModel.searchByFields.observe(this, new Observer<List<SpotCheck>>() {
             @Override
             public void onChanged(List<SpotCheck> spotChecks) {
@@ -124,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //when the search edit text is submitted/sent
             @Override
             public boolean onQueryTextSubmit(String s) {
                 spotCheckViewModel.filterLiveData.setValue(s);
@@ -132,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
+            //when the search edit text changes (i.e. when user types)
             @Override
             public boolean onQueryTextChange(String s) {
                 if (s.equals("")) {
@@ -145,11 +157,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //this hides the soft keyboard (only used when the query in the search view is empty)
     public void hideKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
+    //this checks which of the two list views are selected (list or grid) and populates the respective adapter with this data returned from the database through the view model
     public void renderList(List<SpotCheck> spotChecks) {
         list = spotChecks;
         if (isList) {
@@ -161,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //this method paints/draws the corresponding list view
     public void drawSpotCheckItems(BaseAdapter adapter, int layout, int color, int height) {
         listView = findViewById(R.id.spotChecksListView);
         listGridIcon = findViewById(R.id.listViewButton);
@@ -172,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //every time the activity loses focus (user goes to another activity, app, etc), this runs
     @Override
     protected void onPause() {
         super.onPause();
@@ -190,12 +206,15 @@ public class MainActivity extends AppCompatActivity {
     @Override //run when activity intent has concluded (finished)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //runs if the activity that concluded the intent is the SpotCheckActivity (the one that allows the user to create a new spot check)
         if (requestCode == ADD_SPOT_CHECK && resultCode == RESULT_OK) {
             insertNewSpotCheck(data);
-        } else if (requestCode == OPEN_SPOT_CHECK && resultCode == RESULT_OK) {
+        } else if (requestCode == OPEN_SPOT_CHECK && resultCode == RESULT_OK) { //or if it was the DetailedSpotCheckActivity (the one with the spot check detailed information)
             SpotCheck spot = isList ? listAdapter.getSpotAt(selectedSpot) : gridAdapter.getSpotAt(selectedSpot);
             spotCheckViewModel.delete(spot);
-        } else if (requestCode == EMAIL_SPOTS && resultCode == RESULT_OK) {
+        } else if (requestCode == EMAIL_SPOTS && resultCode == RESULT_OK) { //or if it was the EmailActivity (the one that sends the emails)
+            //loops through all the spot checks in the list plus the ones in the listEmail (the ones that haven't been emailed before)
+            //and compares them, if they have the same ID, it updates them assigning them the value of true to the isSent property (i.e. marking them as sent)
             for (SpotCheck spotCheck : list) {
                 for (String emailedSpot : listEmail) {
                     if (spotCheck.getId().equals(emailedSpot)) {
@@ -217,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //when email is sent successfully, this runs
     private void displayEmailToast() {
         Toast toast = Toast.makeText(this, "Email sent!", Toast.LENGTH_SHORT);
         View toastView = toast.getView();
@@ -226,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
+    //inserts the contents of the new spot check into the database through the ViewModel -> repo -> DAO
     private void insertNewSpotCheck(Intent data) {
         String numberPlate = data.getStringExtra("numberPlate");
         String carMake = data.getStringExtra("carMake");
@@ -238,16 +259,19 @@ public class MainActivity extends AppCompatActivity {
         spotCheckViewModel.insert(newSpotCheck);
     }
 
+    //when the list-grid icon is pressed, this toggles the value and renders the respective listView
     public void toggleListView(View view) {
         isList = !isList;
         renderList(list);
     }
 
+    //when the Spot Check button is pressed
     public void openSpotCheckScreen(View view) {
         Intent spotCheckScreen = new Intent(this, SpotCheckActivity.class);
         startActivityForResult(spotCheckScreen, ADD_SPOT_CHECK);
     }
 
+    //when the email spot checks button (paper plane icon) is pressed
     public void openEmailSpotChecks(View view) {
         readyToEmail = true;
         spotCheckViewModel.filterLiveData.setValue("");
@@ -257,14 +281,15 @@ public class MainActivity extends AppCompatActivity {
         clearSearch = true;
     }
 
+    //populates both lists (list with all the spot checks and the one with spot check that haven't been emailed)
     public void prepareEmailSpots() {
         readyToEmail = false;
         Intent emailScreen = new Intent(this, EmailActivity.class);
         String spots = "";
         String allSpots = "";
         for (SpotCheck spotCheck : list) {
-            allSpots += contentsOfEmail(spotCheck);
-            if (!spotCheck.isSent()) {
+            allSpots += contentsOfEmail(spotCheck); //add all spot check to this String (body of email)
+            if (!spotCheck.isSent()) { //if email hasn't been sent, add it to the listEmail and to the spot String (body of email)
                 listEmail.add(spotCheck.getId());
                 spots += contentsOfEmail(spotCheck);
             }
@@ -274,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(emailScreen, EMAIL_SPOTS);
     }
 
+    //this is the structure of each of the spot checks to be emailed
     public String contentsOfEmail(SpotCheck spotCheck) {
         String spots = "";
         spots += "•Number plate: " + spotCheck.getNumberPlate() + "\n";
@@ -287,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         return spots;
     }
 
+    //it sorts the spot checks by result
     public void sortByResult(View view) {
         Collections.sort(list, new Comparator<SpotCheck>() {
             public int compare(SpotCheck spot1, SpotCheck spot2) {
@@ -296,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
         renderList(list);
     }
 
+    //sorts the spot checks by date
     public void sortByDate(View view) {
         Collections.sort(list, new Comparator<SpotCheck>() {
             public int compare(SpotCheck spot1, SpotCheck spot2) {
@@ -305,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
         renderList(list);
     }
 
+    //this runs when the actual date is selected from the datepicker
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -323,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    //when the Search Dates view is clicked/tapped this runs
     public void searchByDate(View view) {
         styleSearchDate(R.drawable.corner_radius, R.string.search_dates, "#797979");
         if (clearSearch) {
@@ -336,6 +366,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //styles the search dates button to whether is clear search or search dates
     public void styleSearchDate(int background, int label, String color) {
         searchByDateView = findViewById(R.id.searchByDateView);
         searchByDateView.setBackground(ContextCompat.getDrawable(MainActivity.this, background));

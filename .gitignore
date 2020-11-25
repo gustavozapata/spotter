@@ -13,10 +13,6 @@
 .externalNativeBuild
 .cxx
 
-# GZ
-Local/
-/Local
-
 # Built application files
 *.apk
 *.aar
